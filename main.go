@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 )
 
@@ -29,11 +28,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, anime := range animes {
-		fmt.Println(anime.Name)
-		fmt.Println(anime.URL)
-		fmt.Println(anime.BloadCaster)
-		fmt.Println(anime.StartDate)
-		fmt.Println("")
-	}
+	// for _, anime := range animes {
+	// 	fmt.Println(anime.Name)
+	// 	fmt.Println(anime.URL)
+	// 	fmt.Println(anime.BloadCaster)
+	// 	fmt.Println(anime.StartDate)
+	// 	fmt.Println("")
+	// }
+
+	outputMarkdown(animes)
 }

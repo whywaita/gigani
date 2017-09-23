@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"io/ioutil"
 	"net/http"
 )
@@ -18,8 +17,7 @@ func getHTML(url string) (string, error) {
 		return "", err
 	}
 
-	buf := bytes.NewBuffer(body)
-	html := buf.String()
+	html := string(body)
 
 	return html, nil
 }

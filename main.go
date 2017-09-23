@@ -15,10 +15,16 @@ type Anime struct {
 func main() {
 	// parse args
 	defaultURL := "http://gigazine.net/news/20170917-anime-2017autumn/"
-	var url = flag.String("url", defaultURL, "target URL")
+	var (
+		flagURL          = flag.String("url", defaultURL, "target URL")
+		flagOutputFormat = flag.String("output", "markdown", "output format")
+	)
 	flag.Parse()
 
-	html, err := getHTML(*url)
+	url := *flagURL
+	outputFormat := *flagOutputFormat
+
+	html, err := getHTML(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,5 +42,8 @@ func main() {
 	// 	fmt.Println("")
 	// }
 
-	outputMarkdown(animes)
+	if outputFormat == "markdown" {
+		outputMarkdown(animes)
+	}
+
 }

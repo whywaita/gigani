@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 )
@@ -13,10 +14,12 @@ type Anime struct {
 }
 
 func main() {
-	// anime 2017 autumn
-	url := "http://gigazine.net/news/20170917-anime-2017autumn/"
+	// parse args
+	defaultURL := "http://gigazine.net/news/20170917-anime-2017autumn/"
+	var url = flag.String("url", defaultURL, "target URL")
+	flag.Parse()
 
-	html, err := getHTML(url)
+	html, err := getHTML(*url)
 	if err != nil {
 		log.Fatal(err)
 	}

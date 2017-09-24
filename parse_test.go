@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestoarseAnime(t *testing.T) {
+func TestparseAnime(t *testing.T) {
 	// sampleHTML cited 2017年秋季開始の新作アニメ一覧 - GIGAZINE (http://gigazine.net/news/20170917-anime-2017autumn/)
 	sampleHTML := `
 </p><hr><p class="preface"></p><h2><a href="http://kekkaisensen.com/" target="_blank">血界戦線＆BEYOND</a></h2><p class="preface"><a href="http://kekkaisensen.com/"></p><img data-src="http://i.gzn.jp/img/2017/09/17/anime-2017autumn/31.png" border="0" class="lazyload"><p class="preface"></a><br />

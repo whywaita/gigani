@@ -25,7 +25,7 @@ func parseAnime(html string) ([]Anime, error) {
 			animeBlock = []string{}
 		}
 
-		animeBlock = append(animeBlock, sentence) // correct sentence
+		animeBlock = append(animeBlock, sentence) // collect sentence
 	}
 
 	if err := scanner.Err(); err != nil {

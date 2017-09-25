@@ -24,6 +24,11 @@ func main() {
 	url := *flagURL
 	outputFormat := *flagOutputFormat
 
+	err := validateFlag(url, outputFormat)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	html, err := getHTML(url)
 	if err != nil {
 		log.Fatal(err)

@@ -2,8 +2,18 @@ package main
 
 import (
 	"bufio"
+	"encoding/xml"
 	"strings"
 )
+
+type htmlTitle struct {
+	H2 Value `xml:"h2"`
+	A  Value `xml:"a"`
+}
+
+type Value struct {
+	Content string `xml:",innerxml"`
+}
 
 func parseAnime(html string) ([]Anime, error) {
 	reader := strings.NewReader(html)
@@ -41,10 +51,15 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 	// list of Broadcaster (priority order)
 	list_broadcaster := [6]string{"TOKYO MX", "テレビ東京", "フジテレビ", "日本テレビ", "tvk", "TBS"}
 
+	var err error
+
 	for _, sentence := range animeBlock {
 		if strings.HasPrefix(sentence, `</p><hr><p class="preface">`) {
 			// `</p><hr><p class="preface">` contain title
-			anime.Name = trimTitle(sentence)
+			anime.Name, err = trimTitle(sentence)
+			if err != nil {
+				return Anime{}, err
+			}
 			anime.URL = trimURL(sentence)
 		}
 
@@ -71,11 +86,14 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 	return *anime, nil
 }
 
-func trimTitle(sentence string) (title string) {
-	a := strings.Split(sentence, `target="_blank">`)[1]
-	title = strings.Split(a, `</a>`)[0]
+func trimTitle(sentence string) (title string, err error) {
+	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
+	h := htmlTitle{}
 
-	return title
+	err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
+	title = h.A.Content
+
+	return title, nil
 }
 
 func trimURL(sentence string) (url string) {

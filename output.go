@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func outputMarkdown(animes []Anime) {
-  # output Markdown table
+	// output Markdown table
 	fmt.Println(`# 録画リスト`)
 	fmt.Println(`| 名前 | 局 | 放送時間 | done |`)
 	fmt.Println(`|---|---|---|---|`)

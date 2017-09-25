@@ -21,7 +21,3 @@ func getHTML(url string) (string, error) {
 
 	return html, nil
 }
-
-func getStringPointer(s string) *string {
-	return &s
-}

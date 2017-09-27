@@ -9,6 +9,6 @@ func outputMarkdown(animes []Anime) {
 	fmt.Println(`|---|---|---|---|`)
 
 	for _, anime := range animes {
-		fmt.Println(`|[` + anime.Name + `](` + anime.URL + `) |` + anime.BloadCaster + `|` + anime.StartDate + `|done|`)
+		fmt.Println(`|[` + anime.Name + `](` + anime.URL + `) |` + anime.BloadCaster + `|` + anime.StartDate + `||`)
 	}
 }

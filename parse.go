@@ -15,7 +15,7 @@ type Value struct {
 	Content string `xml:",innerxml"`
 }
 
-func parseAnime(html string) ([]Anime, error) {
+func ParseAnime(html string) ([]Anime, error) {
 	reader := strings.NewReader(html)
 	scanner := bufio.NewScanner(reader)
 

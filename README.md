@@ -1,4 +1,4 @@
-# giani
+# gigani
 
 parser of GIGAZINE Anime page
 
@@ -6,5 +6,5 @@ parser of GIGAZINE Anime page
 
 ```
 $ go build .
-$ ./giani
+$ ./gigani
 ```

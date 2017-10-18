@@ -1,8 +1,12 @@
-package main
+package output
 
-import "fmt"
+import (
+	"fmt"
 
-func outputMarkdown(animes []Anime) {
+	"github.com/whywaita/gigani/parse"
+)
+
+func Markdown(animes []parse.Anime) {
 	// output Markdown table
 	fmt.Println(`# 録画リスト`)
 	fmt.Println(`| 名前 | 局 | 放送時間 | done |`)

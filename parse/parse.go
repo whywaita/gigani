@@ -1,4 +1,4 @@
-package main
+package parse
 
 import (
 	"bufio"
@@ -13,6 +13,13 @@ type htmlTitle struct {
 
 type Value struct {
 	Content string `xml:",innerxml"`
+}
+
+type Anime struct {
+	Name        string
+	URL         string
+	StartDate   string
+	BloadCaster string
 }
 
 func ParseAnime(html string) ([]Anime, error) {

@@ -1,4 +1,4 @@
-package main
+package parse
 
 import (
 	"reflect"
@@ -120,7 +120,7 @@ ED：Brian the Sun「カフネ」<br />
 野口英作：うえだゆうじ<br />
 <br />
 `
-	parsedData, err := parseAnime(sampleHTML)
+	parsedData, err := ParseAnime(sampleHTML)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,11 +1,11 @@
-package main
+package lib
 
 import (
 	"io/ioutil"
 	"net/http"
 )
 
-func getHTML(url string) (string, error) {
+func GetHTML(url string) (string, error) {
 	res, err := http.Get(url)
 	if err != nil {
 		return "", err

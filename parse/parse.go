@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/xml"
 	"strings"
+	"time"
 )
 
 type htmlTitle struct {
@@ -18,7 +19,7 @@ type Value struct {
 type Anime struct {
 	Name        string
 	URL         string
-	StartDate   string
+	StartDate   time.Time
 	BloadCaster string
 }
 
@@ -78,9 +79,14 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 				anime.BloadCaster = s[0]
 				if len(s) != 2 {
 					// if StartDate is undefined, it is blank
-					anime.StartDate = ""
+					anime.StartDate = time.Time{}
 				} else {
-					anime.StartDate = s[1]
+					startData, err := parseTime(s[1])
+					if err != nil {
+						return Anime{}, err
+					}
+
+					anime.StartDate = startData
 				}
 			}
 		}
@@ -109,4 +115,28 @@ func trimURL(sentence string) (url string) {
 	url = s[0]
 
 	return url
+}
+
+func parseTime(startTime string) (time.Time, error) {
+	// replace jaoanese to english
+	replaceRule := []string{"日", "Sunday",
+		"月", "Monday",
+		"火", "Tuesday",
+		"水", "Wednesday",
+		"木", "Thursday",
+		"金", "Friday",
+		"土", "Saturday",
+	}
+
+	r := strings.NewReplacer(replaceRule...)
+	s := r.Replace(startTime)
+
+	layout := "1/2(Monday) 15:04～"
+
+	t, err := time.Parse(layout, s)
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return t, nil
 }

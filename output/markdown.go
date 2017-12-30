@@ -8,7 +8,7 @@ import (
 
 func Markdown(animes []parse.Anime) {
 	// output Markdown table
-	fmt.Println(`# 録画リスト`)
+	fmt.Println(`# 録画リスト (auto generate by [whywaita/giagni](https://github.com/whywaita/gigani/))`)
 	fmt.Println(`| 名前 | 局 | 放送時間 | done |`)
 	fmt.Println(`|---|---|---|---|`)
 

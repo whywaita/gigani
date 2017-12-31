@@ -37,7 +37,7 @@ func Start(args []string) {
 	}
 
 	if outputFormat == "markdown" {
-		output.Markdown(animes)
+		output.Markdown(animes, url)
 	}
 
 }

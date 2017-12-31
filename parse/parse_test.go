@@ -3,6 +3,7 @@ package parse
 import (
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestParseAnime(t *testing.T) {
@@ -129,8 +130,9 @@ ED：Brian the Sun「カフネ」<br />
 		t.Fatal("animes length must be 2")
 	}
 
-	anime1 := Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", "10/8(日) 24:30～", "TOKYO MX"}
-	anime2 := Anime{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", "指定されていない放送局です", ""}
+	t1 := time.Date(2017, 10, 8, 24, 30, 0, 0, time.UTC)
+	anime1 := Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", t1, "TOKYO MX"}
+	anime2 := Anime{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", time.Time{}, "指定されていない放送局です"}
 
 	correctData := []Anime{}
 	correctData = append(parsedData, anime1)

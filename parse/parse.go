@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type htmlTitle struct {
+type htmlAnimeTitle struct {
 	H2 Value `xml:"h2"`
 	A  Value `xml:"a"`
 }
@@ -24,18 +24,28 @@ type Anime struct {
 }
 
 func ParseAnime(html string) ([]Anime, error) {
+	var err error
 	reader := strings.NewReader(html)
 	scanner := bufio.NewScanner(reader)
 
 	animeBlock := []string{}
 	animes := []Anime{}
 
+	year := ""
+
 	for scanner.Scan() {
 		sentence := scanner.Text()
 
+		if strings.HasPrefix(sentence, `<title>`) {
+			year, err = getYear(sentence)
+			if err != nil {
+				return []Anime{}, err
+			}
+		}
+
 		if sentence == "<b>・キャスト</b><br />" {
 			// "・キャスト" is last contents of anime block
-			anime, err := _parseAnime(animeBlock)
+			anime, err := _parseAnime(animeBlock, year)
 			if err != nil {
 				return nil, err
 			}
@@ -53,7 +63,7 @@ func ParseAnime(html string) ([]Anime, error) {
 	return animes, nil
 }
 
-func _parseAnime(animeBlock []string) (Anime, error) {
+func _parseAnime(animeBlock []string, year string) (Anime, error) {
 	// anime block per anime
 	anime := &Anime{}
 	// list of Broadcaster (priority order)
@@ -88,7 +98,7 @@ L:
 					// if StartDate is undefined, it is blank
 					anime.StartDate = time.Time{}
 				} else {
-					startData, err := parseTime(s[1])
+					startData, err := parseTime(s[1], year)
 					if err != nil {
 						return Anime{}, err
 					}
@@ -110,7 +120,7 @@ L:
 
 func trimTitle(sentence string) (title string, err error) {
 	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
-	h := htmlTitle{}
+	h := htmlAnimeTitle{}
 
 	err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
 	title = h.A.Content
@@ -124,4 +134,14 @@ func trimURL(sentence string) (url string) {
 	url = s[0]
 
 	return url
+}
+
+func getYear(sentence string) (year string, err error) {
+	r := strings.NewReader(sentence)
+	htmlTitle, _ := GetHtmlTitle(r)
+
+	s := strings.Split(htmlTitle, "年")
+	year = s[0]
+
+	return year, nil
 }

@@ -116,27 +116,3 @@ func trimURL(sentence string) (url string) {
 
 	return url
 }
-
-func parseTime(startTime string) (time.Time, error) {
-	// replace jaoanese to english
-	replaceRule := []string{"日", "Sunday",
-		"月", "Monday",
-		"火", "Tuesday",
-		"水", "Wednesday",
-		"木", "Thursday",
-		"金", "Friday",
-		"土", "Saturday",
-	}
-
-	r := strings.NewReplacer(replaceRule...)
-	s := r.Replace(startTime)
-
-	layout := "1/2(Monday) 15:04～"
-
-	t, err := time.Parse(layout, s)
-	if err != nil {
-		return time.Time{}, err
-	}
-
-	return t, nil
-}

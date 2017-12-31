@@ -12,6 +12,16 @@ import (
 var timeRe = regexp.MustCompile(`\d{1,2}`)
 var dayRe = regexp.MustCompile(`(\p{Han})`)
 
+var weekday = []string{
+	"日",
+	"月",
+	"火",
+	"水",
+	"木",
+	"金",
+	"土",
+}
+
 func NormalizeTime(times string) (string, error) {
 	rTime := timeRe.FindAllStringSubmatch(times, -1)
 	rDay := dayRe.FindStringSubmatch(times)
@@ -40,16 +50,6 @@ func NormalizeTime(times string) (string, error) {
 }
 
 func nextWeekday(day string) string {
-	var weekday = []string{
-		"日",
-		"月",
-		"火",
-		"水",
-		"木",
-		"金",
-		"土",
-	}
-
 	counter := 0
 	for _, s := range weekday {
 		if strings.EqualFold(day, s) {

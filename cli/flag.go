@@ -5,7 +5,7 @@ import (
 	"net/url"
 )
 
-func validateFlag(url, outputFormat string) error {
+func validateFlag(url, outputFormat, sortType string) error {
 	// validation flag
 	var err error
 
@@ -15,6 +15,11 @@ func validateFlag(url, outputFormat string) error {
 	}
 
 	err = validateFlagOutputFormat(outputFormat)
+	if err != nil {
+		return err
+	}
+
+	err = validateFlagSort(sortType)
 	if err != nil {
 		return err
 	}
@@ -44,4 +49,19 @@ func validateFlagOutputFormat(outputFormat string) error {
 
 	err := errors.New(outputFormat + " is unsupported output format")
 	return err
+}
+
+func validateFlagSort(sortType string) error {
+	supportType := []string{"post", "time"}
+
+	for _, Type := range supportType {
+		if sortType == Type {
+			// sortType is support!
+			return nil
+		}
+	}
+
+	err := errors.New(sortType + " is unsupported sort type")
+	return err
+
 }

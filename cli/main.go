@@ -13,16 +13,19 @@ func Start(args []string) {
 	// parse args
 	defaultURL := ""
 	defaultFormat := ""
+	defaultSortType := "post"
 	var (
-		flagURL          = flag.String("url", defaultURL, "target URL")
-		flagOutputFormat = flag.String("output", defaultFormat, "output format, can use markdown/json")
+		flagURL          = flag.String("url", defaultURL, "[required] target URL")
+		flagOutputFormat = flag.String("output", defaultFormat, "[required] output format, *markdown / json*")
+		flagSortType     = flag.String("sort", defaultSortType, "[optional] sort base *post / time*")
 	)
 	flag.Parse()
 
 	url := *flagURL
 	outputFormat := *flagOutputFormat
+	sortType := *flagSortType
 
-	err := validateFlag(url, outputFormat)
+	err := validateFlag(url, outputFormat, sortType)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,6 +38,12 @@ func Start(args []string) {
 	animes, err := parse.ParseAnime(html)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if sortType == "post" {
+		// do nothing
+	} else if sortType == "time" {
+		animes = parse.SortAnimeByTime(animes)
 	}
 
 	if outputFormat == "markdown" {

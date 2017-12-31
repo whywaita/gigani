@@ -69,7 +69,7 @@ func nextWeekday(day string) string {
 	return weekday[n]
 }
 
-func parseTime(startTime string) (time.Time, error) {
+func parseTime(startTime string, year string) (time.Time, error) {
 	// day of a week replace jaoanese to english (for strings.Replace)
 	replaceRule := []string{
 		"日", "Sunday",
@@ -94,6 +94,20 @@ func parseTime(startTime string) (time.Time, error) {
 	t, err := time.Parse(layout, s)
 	if err != nil {
 		return time.Time{}, err
+	}
+
+	// year add
+	// time.Parse return year is 0000.
+	// So, addDate year by title.
+	y, err := strconv.Atoi(year)
+	if err != nil {
+		return time.Time{}, err
+	}
+	t = t.AddDate(y, 0, 0)
+
+	// if month is 12, maybe that anime is last year.
+	if t.Month() == 12 {
+		t = t.AddDate(-1, 0, 0)
 	}
 
 	return t, nil

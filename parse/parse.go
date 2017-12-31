@@ -17,10 +17,10 @@ type Value struct {
 }
 
 type Anime struct {
-	Name        string
-	URL         string
-	StartDate   time.Time
-	BloadCaster string
+	Name        string    `json:"name"`
+	URL         string    `json:"url"`
+	StartDate   time.Time `json:"start_date"`
+	BloadCaster string    `json:"broadcaster"`
 }
 
 func ParseAnime(html string) ([]Anime, error) {

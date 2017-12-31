@@ -33,7 +33,7 @@ func validateFlagURL(rawURL string) error {
 }
 
 func validateFlagOutputFormat(outputFormat string) error {
-	supportFormat := [1]string{"markdown"}
+	supportFormat := []string{"markdown", "json"}
 
 	for _, format := range supportFormat {
 		if outputFormat == format {

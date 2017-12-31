@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/xml"
 	"strings"
-	"time"
 )
 
 type htmlTitle struct {
@@ -19,7 +18,7 @@ type Value struct {
 type Anime struct {
 	Name        string
 	URL         string
-	StartDate   time.Time
+	StartDate   string
 	BloadCaster string
 }
 
@@ -79,14 +78,9 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 				anime.BloadCaster = s[0]
 				if len(s) != 2 {
 					// if StartDate is undefined, it is blank
-					anime.StartDate = time.Time{}
+					anime.StartDate = ""
 				} else {
-					startData, err := parseTime(s[1])
-					if err != nil {
-						return Anime{}, err
-					}
-
-					anime.StartDate = startData
+					anime.StartDate = s[1]
 				}
 			}
 		}

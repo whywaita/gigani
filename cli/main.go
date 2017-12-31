@@ -11,10 +11,11 @@ import (
 
 func Start(args []string) {
 	// parse args
-	defaultURL := "http://gigazine.net/news/20170917-anime-2017autumn/"
+	defaultURL := ""
+	defaultFormat := ""
 	var (
 		flagURL          = flag.String("url", defaultURL, "target URL")
-		flagOutputFormat = flag.String("output", "markdown", "output format")
+		flagOutputFormat = flag.String("output", defaultFormat, "output format, can use markdown/json")
 	)
 	flag.Parse()
 

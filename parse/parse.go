@@ -61,9 +61,16 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 
 	var err error
 
+L:
+
 	for _, sentence := range animeBlock {
 		if strings.HasPrefix(sentence, `</p><hr><p class="preface">`) {
 			// `</p><hr><p class="preface">` contain title
+
+			if anime.Name != "" {
+				continue
+			}
+
 			anime.Name, err = trimTitle(sentence)
 			if err != nil {
 				return Anime{}, err
@@ -87,6 +94,8 @@ func _parseAnime(animeBlock []string) (Anime, error) {
 					}
 
 					anime.StartDate = startData
+
+					break L
 				}
 			}
 		}

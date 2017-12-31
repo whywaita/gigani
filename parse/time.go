@@ -25,22 +25,22 @@ func NormalizeTime(times string) (string, error) {
 	day, _ := strconv.Atoi(rTime[1][0])
 	hour, _ := strconv.Atoi(rTime[2][0])
 	min, _ := strconv.Atoi(rTime[3][0])
-	dayOfWeek := rDay[0]
+	weekday := rDay[0]
 
 	// normalize
 	if hour >= 24 {
 		hour = hour - 24
 		day = day + 1
-		dayOfWeek = nextDayOfAWeek(dayOfWeek)
+		weekday = nextWeekday(weekday)
 	}
 
-	normalized := fmt.Sprintf("%d/%d(%s) %d:%02d", month, day, dayOfWeek, hour, min)
+	normalized := fmt.Sprintf("%d/%d(%s) %d:%02d", month, day, weekday, hour, min)
 
 	return normalized, nil
 }
 
-func nextDayOfAWeek(day string) string {
-	var dayOfAWeek = []string{
+func nextWeekday(day string) string {
+	var weekday = []string{
 		"日",
 		"月",
 		"火",
@@ -51,7 +51,7 @@ func nextDayOfAWeek(day string) string {
 	}
 
 	counter := 0
-	for _, s := range dayOfAWeek {
+	for _, s := range weekday {
 		if strings.EqualFold(day, s) {
 			break
 		}
@@ -59,14 +59,14 @@ func nextDayOfAWeek(day string) string {
 		counter++
 	}
 
-	if counter == len(dayOfAWeek)-1 {
+	if counter == len(weekday)-1 {
 		// if dayOfWeek is "土"
 		// return "日"
-		return dayOfAWeek[0]
+		return weekday[0]
 	}
 
 	n := counter + 1
-	return dayOfAWeek[n]
+	return weekday[n]
 }
 
 func parseTime(startTime string) (time.Time, error) {

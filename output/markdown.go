@@ -13,9 +13,6 @@ func Markdown(animes []parse.Anime) {
 	fmt.Println(`|---|---|---|---|`)
 
 	for _, anime := range animes {
-		layout := "01/02(Monday) 15:04〜"
-		startDate := anime.StartDate.Format(layout)
-
-		fmt.Println(`|[` + anime.Name + `](` + anime.URL + `) |` + anime.BloadCaster + `|` + startDate + `||`)
+		fmt.Println(`|[` + anime.Name + `](` + anime.URL + `) |` + anime.BloadCaster + `|` + anime.StartDate + `||`)
 	}
 }

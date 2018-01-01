@@ -5,14 +5,14 @@ jobs:
     docker:
       - image: golang:latest
       - image: golang:1.9
- steps:
+  steps:
       - checkout
-      - run: 
+      - run:
         name: install dep
         command: go get github.com/golang/dep/...
       - run:
         name: dep ensure
         command: $GOPATH/bin/dep ensure
-      - run: 
+      - run:
         name: go test
         command: go test -v ./...

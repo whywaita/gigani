@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/whywaita/gigani/format"
 	"github.com/whywaita/gigani/lib"
-	"github.com/whywaita/gigani/output"
 	"github.com/whywaita/gigani/parse"
 )
 
@@ -49,9 +49,9 @@ func Start(args []string) {
 
 	var r string
 	if outputFormat == "markdown" {
-		r = output.Markdown(animes, url)
+		r = format.Markdown(animes, url)
 	} else if outputFormat == "json" {
-		r = output.JSON(animes)
+		r = format.JSON(animes)
 	}
 
 	fmt.Println(r)

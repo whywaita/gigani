@@ -51,7 +51,7 @@ func Start(args []string) {
 	if outputFormat == "markdown" {
 		r = output.Markdown(animes, url)
 	} else if outputFormat == "json" {
-		output.JSON(animes)
+		r = output.JSON(animes)
 	}
 
 	fmt.Println(r)

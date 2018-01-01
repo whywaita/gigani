@@ -7,12 +7,12 @@ import (
 	"github.com/whywaita/gigani/parse"
 )
 
-func JSON(animes []parse.Anime) {
+func JSON(animes []parse.Anime) string {
 	j, err := json.Marshal(animes)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 
-	fmt.Println(string(j))
+	return string(j)
 }

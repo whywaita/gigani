@@ -2,10 +2,11 @@ package cli
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
+	"github.com/whywaita/gigani/format"
 	"github.com/whywaita/gigani/lib"
-	"github.com/whywaita/gigani/output"
 	"github.com/whywaita/gigani/parse"
 )
 
@@ -46,10 +47,13 @@ func Start(args []string) {
 		animes = parse.SortAnimeByTime(animes)
 	}
 
+	var r string
 	if outputFormat == "markdown" {
-		output.Markdown(animes, url)
+		r = format.Markdown(animes, url)
 	} else if outputFormat == "json" {
-		output.JSON(animes)
+		r = format.JSON(animes)
 	}
+
+	fmt.Println(r)
 
 }

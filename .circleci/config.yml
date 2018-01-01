@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/whywaita/gigani
+    docker:
+      - image: golang:latest
+      - image: golang:1.9
+    steps:
+      - checkout
+      - run:
+          name: install dep
+          command: go get github.com/golang/dep/...
+      - run:
+          name: dep ensure
+          command: $GOPATH/bin/dep ensure
+      - run:
+          name: go test
+          command: go test -v ./...

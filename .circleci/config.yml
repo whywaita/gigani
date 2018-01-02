@@ -1,6 +1,6 @@
 version: 2.0
 jobs:
-  test-job:
+  build:
     working_directory: /go/src/github.com/whywaita/gigani
     docker:
       - image: golang:latest
@@ -16,7 +16,7 @@ jobs:
       - run:
           name: go test
           command: go test -v ./...
-  deploy-job:
+  deploy:
     working_directory: /go/src/github.com/whywaita/gigani
     docker:
       - image: golang:1.9
@@ -33,10 +33,10 @@ jobs:
 
 workflows:
   version: 2
-  test-deploy:
+  build-and-deploy:
     jobs:
-      - test-job
-      - deploy-job:
+      - build
+      - deploy:
         requires:
           - test-job
         filters:

@@ -23,6 +23,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install dep
+          command: go get github.com/golang/dep/...
+      - run:
+          name: dep ensure
+          command: $GOPATH/bin/dep ensure
+      - run:
           command: go get github.com/mitchellh/gox
       - run:
           command: go get github.com/tcnksm/ghr

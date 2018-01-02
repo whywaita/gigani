@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  build:
     working_directory: /go/src/github.com/whywaita/gigani
     docker:
       - image: golang:latest

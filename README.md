@@ -2,17 +2,32 @@
 
 parser of GIGAZINE Anime page
 
-## Usage
+## Install
+
+### Download binary
+
+You can download binary in [release page](https://github.com/whywaita/gigani/releases).
+
+### Build on your computer
 
 ```
+$ git clone https://github.com/whywaita/gigani
 $ go build .
 $ ./gigani
 ```
 
+## Usage
+
+### Option
+
+- `-url`: [required] set target URL (in GIGAZINE).
+- `-output`: [required] set output format. markdown / json
+- `-sort`: [optional] set sort rule. post(default) / time
+
 ## Example
 
 ```
-$ ./gigani -url "http://gigazine.net/news/20170917-anime-2017autumn/"
+$ ./gigani -url "http://gigazine.net/news/20170917-anime-2017autumn/" -output markdown
 # 録画リスト
 | 名前 | 局 | 放送時間 | done |
 |---|---|---|---|

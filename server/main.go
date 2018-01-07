@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"go.uber.org/zap"
 
@@ -37,6 +38,12 @@ func getAnimesJsonForServer(url string) (string, error) {
 
 func main() {
 	url := "https://gigazine.net/news/20171210-anime-2018winter/"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	port = ":" + port
+
 	json, err := getAnimesJsonForServer(url)
 	if err != nil {
 		log.Fatal(err)
@@ -50,7 +57,7 @@ func main() {
 		fmt.Fprintf(w, json)
 	})
 
-	if err := http.ListenAndServe(":8080", router); err != nil {
+	if err := http.ListenAndServe(port, router); err != nil {
 		log.Fatal("[ERROR]", zap.Error(err))
 	}
 }

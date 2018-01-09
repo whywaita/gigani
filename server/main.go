@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"go.uber.org/zap"
 
@@ -42,7 +43,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	port = ":" + port
+	port = strings.Join([]string{":", port}, "")
 
 	json, err := getAnimesJsonForServer(url)
 	if err != nil {

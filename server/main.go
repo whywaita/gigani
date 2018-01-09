@@ -54,8 +54,10 @@ func main() {
 	router.Path("/health").HandlerFunc(healthCheck)
 
 	router.HandleFunc("/{year}/{season}", func(w http.ResponseWriter, r *http.Request) {
-		// TODO: check year and season
-		fmt.Fprintf(w, json)
+		vars := mux.Vars(r)
+		if strings.EqualFold(vars["year"], "2018") && strings.EqualFold(vars["season"], "winter") {
+			fmt.Fprintf(w, json)
+		}
 	})
 
 	if err := http.ListenAndServe(port, router); err != nil {

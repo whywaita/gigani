@@ -57,6 +57,8 @@ func main() {
 		vars := mux.Vars(r)
 		if strings.EqualFold(vars["year"], "2018") && strings.EqualFold(vars["season"], "winter") {
 			fmt.Fprintf(w, json)
+		} else {
+			http.NotFound(w, r)
 		}
 	})
 

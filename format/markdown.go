@@ -10,9 +10,9 @@ import (
 func Markdown(animes []parse.Anime, url string) string {
 	// output Markdown table
 	s := []string{}
-	s = append(s, "# 録画リスト (auto generate by [whywaita/giagni](https://github.com/whywaita/gigani/))")
+	s = append(s, "# 録画リスト (auto generate by [whywaita/gigani](https://github.com/whywaita/gigani/))")
 
-	u := fmt.Sprint("## target URL is %s", url)
+	u := fmt.Sprint("## target URL is ", url)
 	s = append(s, u)
 
 	s = append(s, "| 名前 | 局 | 放送時間 | done |")

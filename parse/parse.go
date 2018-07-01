@@ -3,13 +3,19 @@ package parse
 import (
 	"bufio"
 	"encoding/xml"
+	"fmt"
 	"strings"
 	"time"
 )
 
 type htmlAnimeTitle struct {
-	H2 Value `xml:"h2"`
-	A  Value `xml:"a"`
+	H2 Value  `xml:"h2"`
+	B  BValue `xml:"b"`
+	// A  Value `xml:"a"`
+}
+
+type BValue struct {
+	A Value `xml:"a"`
 }
 
 type Value struct {
@@ -120,16 +126,23 @@ L:
 
 func trimTitle(sentence string) (title string, err error) {
 	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
+	s = strings.TrimSuffix(s, `<p class="preface">`)
 	h := htmlAnimeTitle{}
 
+	fmt.Println(s)
+
 	err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
-	title = h.A.Content
+	if err != nil {
+		return "", err
+	}
+
+	title = h.B.A.Content
 
 	return title, nil
 }
 
 func trimURL(sentence string) (url string) {
-	a := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p><h2><a href="`)
+	a := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p><h2><b><a href="`)
 	s := strings.Split(a, `"`)
 	url = s[0]
 

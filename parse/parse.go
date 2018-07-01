@@ -3,7 +3,6 @@ package parse
 import (
 	"bufio"
 	"encoding/xml"
-	"fmt"
 	"strings"
 	"time"
 )
@@ -128,8 +127,6 @@ func trimTitle(sentence string) (title string, err error) {
 	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
 	s = strings.TrimSuffix(s, `<p class="preface">`)
 	h := htmlAnimeTitle{}
-
-	fmt.Println(s)
 
 	err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
 	if err != nil {

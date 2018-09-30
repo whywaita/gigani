@@ -23,18 +23,25 @@ var weekday = []string{
 }
 
 func NormalizeTime(times string) (string, error) {
+	var month, day, hour, min int
+
 	rTime := timeRe.FindAllStringSubmatch(times, -1)
 	rDay := dayRe.FindStringSubmatch(times)
 
-	if len(rTime) < 4 {
+	switch len(rTime) {
+	case 4:
+		hour, _ = strconv.Atoi(rTime[2][0])
+		min, _ = strconv.Atoi(rTime[3][0])
+	case 2:
+		hour = 00
+		min = 00
+	default:
 		return "", errors.New("NormalizeTime has error")
 	}
 
 	// get time
-	month, _ := strconv.Atoi(rTime[0][0])
-	day, _ := strconv.Atoi(rTime[1][0])
-	hour, _ := strconv.Atoi(rTime[2][0])
-	min, _ := strconv.Atoi(rTime[3][0])
+	month, _ = strconv.Atoi(rTime[0][0])
+	day, _ = strconv.Atoi(rTime[1][0])
 	weekday := rDay[0]
 
 	// normalize

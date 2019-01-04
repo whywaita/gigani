@@ -28,15 +28,15 @@ func NormalizeTime(times string) (string, error) {
 	rTime := timeRe.FindAllStringSubmatch(times, -1)
 	rDay := dayRe.FindStringSubmatch(times)
 
-	switch len(rTime) {
-	case 4:
+	switch {
+	case len(rTime) >= 4:
 		hour, _ = strconv.Atoi(rTime[2][0])
 		min, _ = strconv.Atoi(rTime[3][0])
-	case 2:
+	case len(rTime) == 2:
 		hour = 00
 		min = 00
 	default:
-		return "", errors.New("NormalizeTime has error")
+		return "", errors.New("NormalizeTime has error, invalid parsed length")
 	}
 
 	// get time

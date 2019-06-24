@@ -17,7 +17,7 @@ func Start(args []string) {
 	defaultSortType := "post"
 	var (
 		flagURL          = flag.String("url", defaultURL, "[required] target URL")
-		flagOutputFormat = flag.String("output", defaultFormat, "[required] output format, *markdown / json*")
+		flagOutputFormat = flag.String("format", defaultFormat, "[required] output format, *markdown / json*")
 		flagSortType     = flag.String("sort", defaultSortType, "[optional] sort base *post / time*")
 	)
 	flag.Parse()

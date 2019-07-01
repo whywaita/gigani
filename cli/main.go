@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/whywaita/gigani/parse/gigazine"
+
 	"github.com/whywaita/gigani/format"
 	"github.com/whywaita/gigani/lib"
-	"github.com/whywaita/gigani/parse"
 )
 
 func Start(args []string) {
@@ -36,7 +37,7 @@ func Start(args []string) {
 		log.Fatal(err)
 	}
 
-	animes, err := parse.ParseAnime(html)
+	animes, err := gigazine.ParseAnime(html)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +45,7 @@ func Start(args []string) {
 	if sortType == "post" {
 		// do nothing
 	} else if sortType == "time" {
-		animes = parse.SortAnimeByTime(animes)
+		animes = lib.SortAnimeByTime(animes)
 	}
 
 	var r string

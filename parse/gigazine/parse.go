@@ -98,7 +98,7 @@ L:
 					// if StartDate is undefined, it is blank
 					anime.StartDate = time.Time{}
 				} else {
-					startData, err := parseTime(s[1], year)
+					startData, err := parse.ParseTime(s[1], year)
 					if err != nil {
 						return parse.Anime{}, err
 					}
@@ -139,14 +139,4 @@ func trimURL(sentence string) (url string) {
 	url = s[0]
 
 	return url
-}
-
-func getYear(sentence string) (year string, err error) {
-	r := strings.NewReader(sentence)
-	htmlTitle, _ := GetHtmlTitle(r)
-
-	s := strings.Split(htmlTitle, "年")
-	year = s[0]
-
-	return year, nil
 }

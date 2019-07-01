@@ -1,6 +1,8 @@
 package parse
 
-import "time"
+import (
+	"time"
+)
 
 type Anime struct {
 	Name        string    `json:"name"`

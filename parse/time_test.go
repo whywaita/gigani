@@ -1,4 +1,4 @@
-package gigazine
+package parse
 
 import (
 	"strings"

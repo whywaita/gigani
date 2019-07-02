@@ -1,6 +1,11 @@
 package gigazine
 
-import "strings"
+import (
+	"strings"
+	"time"
+
+	"github.com/whywaita/gigani/parse"
+)
 
 func getYear(sentence string) (year string, err error) {
 	r := strings.NewReader(sentence)
@@ -10,4 +15,8 @@ func getYear(sentence string) (year string, err error) {
 	year = s[0]
 
 	return year, nil
+}
+
+func parseTime(times string, year string) (time.Time, error) {
+	return parse.ParseTime(times, year)
 }

@@ -98,7 +98,7 @@ L:
 					// if StartDate is undefined, it is blank
 					anime.StartDate = time.Time{}
 				} else {
-					startData, err := parse.ParseTime(s[1], year)
+					startData, err := parseTime(s[1], year)
 					if err != nil {
 						return parse.Anime{}, err
 					}

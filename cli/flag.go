@@ -5,29 +5,6 @@ import (
 	"net/url"
 )
 
-func validateFlag(url, outputFormat, sortType string) error {
-	// validation flag
-	var err error
-
-	err = validateFlagURL(url)
-	if err != nil {
-		return err
-	}
-
-	err = validateFlagOutputFormat(outputFormat)
-	if err != nil {
-		return err
-	}
-
-	err = validateFlagSort(sortType)
-	if err != nil {
-		return err
-	}
-
-	// maybe good
-	return nil
-}
-
 func validateFlagURL(rawURL string) error {
 	_, err := url.ParseRequestURI(rawURL)
 	if err != nil {
@@ -63,5 +40,4 @@ func validateFlagSort(sortType string) error {
 
 	err := errors.New(sortType + " is unsupported sort type")
 	return err
-
 }

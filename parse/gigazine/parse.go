@@ -10,9 +10,13 @@ import (
 )
 
 type htmlAnimeTitle struct {
+	H2 Value `xml:"h2"`
+	A  Value `xml:"a"`
+}
+
+type htmlAnimeTitleWithB struct {
 	H2 Value  `xml:"h2"`
 	B  BValue `xml:"b"`
-	// A  Value `xml:"a"`
 }
 
 type BValue struct {
@@ -121,14 +125,18 @@ L:
 func trimTitle(sentence string) (title string, err error) {
 	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
 	s = strings.TrimSuffix(s, `<p class="preface">`)
-	h := htmlAnimeTitle{}
 
-	err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
-	if err != nil {
-		return "", err
+	if strings.Contains(s, "</b>") {
+		h := htmlAnimeTitleWithB{}
+
+		err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
+		if err != nil {
+			return "", err
+		}
+
+		title = h.B.A.Content
+		return title, nil
 	}
-
-	title = h.B.A.Content
 
 	return title, nil
 }

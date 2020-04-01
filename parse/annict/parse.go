@@ -42,7 +42,7 @@ func workToAnime(work AnnictWork) parse.Anime {
 
 	if len(programs) == 0 {
 		anime.StartDate = time.Time{}
-		anime.BloadCaster = parse.BroadCasterNotFound
+		anime.BloadCaster = "まだエピソードが登録されていません"
 		return anime
 	}
 

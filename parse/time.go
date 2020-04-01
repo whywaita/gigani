@@ -9,10 +9,7 @@ import (
 	"time"
 )
 
-var timeRe = regexp.MustCompile(`\d{1,2}`)
-var dayRe = regexp.MustCompile(`(\p{Han})`)
-
-var weekday = []string{
+var weekdayJa = []string{
 	"日",
 	"月",
 	"火",
@@ -22,7 +19,16 @@ var weekday = []string{
 	"土",
 }
 
+var timeRe = regexp.MustCompile(`\d{1,2}`)
+var dayRe = regexp.MustCompile(`(\p{Han})`)
+
+var (
+	layoutTime   = "1/2(Monday) 15:04"
+	layoutRegexp = "%d/%d(%s) %d:%02d"
+)
+
 func NormalizeTime(times string) (string, error) {
+	// times format is layoutRegexp
 	var month, day, hour, min int
 
 	rTime := timeRe.FindAllStringSubmatch(times, -1)
@@ -58,7 +64,7 @@ func NormalizeTime(times string) (string, error) {
 
 func nextWeekday(day string) string {
 	counter := 0
-	for _, s := range weekday {
+	for _, s := range weekdayJa {
 		if strings.EqualFold(day, s) {
 			break
 		}
@@ -66,18 +72,18 @@ func nextWeekday(day string) string {
 		counter++
 	}
 
-	if counter == len(weekday)-1 {
+	if counter == len(weekdayJa)-1 {
 		// if dayOfWeek is "土"
 		// return "日"
-		return weekday[0]
+		return weekdayJa[0]
 	}
 
 	n := counter + 1
-	return weekday[n]
+	return weekdayJa[n]
 }
 
-func parseTime(startTime string, year string) (time.Time, error) {
-	// day of a week replace jaoanese to english (for strings.Replace)
+func ParseTime(times string, year string) (time.Time, error) {
+	// day of a week replace japanese to english (for strings.Replace)
 	replaceRule := []string{
 		"日", "Sunday",
 		"月", "Monday",
@@ -88,7 +94,7 @@ func parseTime(startTime string, year string) (time.Time, error) {
 		"土", "Saturday",
 	}
 
-	normalized, err := NormalizeTime(startTime)
+	normalized, err := NormalizeTime(times)
 	if err != nil {
 		return time.Time{}, err
 	}
@@ -96,9 +102,7 @@ func parseTime(startTime string, year string) (time.Time, error) {
 	r := strings.NewReplacer(replaceRule...)
 	s := r.Replace(normalized)
 
-	layout := "1/2(Monday) 15:04"
-
-	t, err := time.Parse(layout, s)
+	t, err := time.Parse(layoutTime, s)
 	if err != nil {
 		return time.Time{}, err
 	}

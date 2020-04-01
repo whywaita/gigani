@@ -7,12 +7,13 @@ import (
 	"os"
 	"strings"
 
+	"github.com/whywaita/gigani/parse/gigazine"
+
 	"go.uber.org/zap"
 
 	"github.com/gorilla/mux"
 	"github.com/whywaita/gigani/format"
 	"github.com/whywaita/gigani/lib"
-	"github.com/whywaita/gigani/parse"
 )
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,7 @@ func getAnimesJsonForServer(url string) (string, error) {
 		return "", err
 	}
 
-	animes, err := parse.ParseAnime(html)
+	animes, err := gigazine.ParseAnime(html)
 	if err != nil {
 		return "", err
 	}

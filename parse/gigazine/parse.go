@@ -70,8 +70,6 @@ func ParseAnime(html string) ([]parse.Anime, error) {
 func _parseAnime(animeBlock []string, year string) (parse.Anime, error) {
 	// anime block per anime
 	anime := &parse.Anime{}
-	// list of Broadcaster (priority order)
-	list_broadcaster := [6]string{"TOKYO MX", "テレビ東京", "フジテレビ", "日本テレビ", "tvk", "TBS"}
 
 	var err error
 
@@ -92,7 +90,7 @@ L:
 			anime.URL = trimURL(sentence)
 		}
 
-		for _, b := range list_broadcaster {
+		for _, b := range parse.ListBroadcaster {
 			if strings.HasPrefix(sentence, b) {
 				// want to fast as soon as possible
 				sentence = strings.TrimSuffix(sentence, "<br />")
@@ -116,7 +114,7 @@ L:
 	}
 
 	if anime.BloadCaster == "" {
-		anime.BloadCaster = "指定されていない放送局です"
+		anime.BloadCaster = parse.BroadCasterNotFound
 	}
 
 	return *anime, nil
@@ -147,4 +145,9 @@ func trimURL(sentence string) (url string) {
 	url = s[0]
 
 	return url
+}
+
+func listBroadCaster() [6]string {
+	// return list of broadcaster for gigazine notation
+	return parse.ListBroadcaster
 }

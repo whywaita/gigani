@@ -15,6 +15,7 @@ func main() {
 	subcommands.Register(subcommands.FlagsCommand(), "")
 	subcommands.Register(subcommands.CommandsCommand(), "")
 	subcommands.Register(&cli.GigazineCmd{}, "")
+	subcommands.Register(&cli.AnnictCmd{}, "")
 
 	flag.Parse()
 	ctx := context.Background()

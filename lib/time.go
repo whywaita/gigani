@@ -1,6 +1,8 @@
 package lib
 
-import "time"
+import (
+	"time"
+)
 
 type Season int
 
@@ -46,13 +48,13 @@ func GetSeason(t time.Time) Season {
 	month := t.Month()
 
 	switch {
-	case 1 <= month || month <= 3:
+	case 1 <= month && month <= 3:
 		return Winter
-	case 4 <= month || month <= 6:
+	case 4 <= month && month <= 6:
 		return Spring
-	case 7 <= month || month <= 9:
+	case 7 <= month && month <= 9:
 		return Summer
-	case 10 <= month || month <= 12:
+	case 10 <= month && month <= 12:
 		return Autumn
 	}
 

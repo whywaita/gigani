@@ -4,6 +4,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/whywaita/gigani/parse"
 )
 
 func TestParseAnime(t *testing.T) {
@@ -133,10 +135,10 @@ ED：Brian the Sun「カフネ」<br />
 	}
 
 	t1 := time.Date(2017, 10, 8, 24, 30, 0, 0, time.UTC)
-	anime1 := Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", t1, "TOKYO MX"}
-	anime2 := Anime{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", time.Time{}, "指定されていない放送局です"}
+	anime1 := parse.Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", t1, "TOKYO MX"}
+	anime2 := parse.Anime{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", time.Time{}, "指定されていない放送局です"}
 
-	correctData := []Anime{}
+	correctData := []parse.Anime{}
 	correctData = append(parsedData, anime1)
 	correctData = append(parsedData, anime2)
 

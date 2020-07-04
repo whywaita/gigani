@@ -8,9 +8,8 @@ import (
 	"github.com/whywaita/gigani/parse"
 )
 
-func TestParseAnime(t *testing.T) {
-	// sampleHTML cited 2017年秋季開始の新作アニメ一覧 - GIGAZINE (http://gigazine.net/news/20170917-anime-2017autumn/)
-	sampleHTML := `
+// sampleHTML cited 2017年秋季開始の新作アニメ一覧 - GIGAZINE (http://gigazine.net/news/20170917-anime-2017autumn/)
+const sample2017AutumnHTML = `
 <title>2017年秋季開始の新作アニメ一覧 - GIGAZINE</title>
 
 </p><hr><p class="preface"></p><h2><a href="http://kekkaisensen.com/" target="_blank">血界戦線＆BEYOND</a></h2><p class="preface"><a href="http://kekkaisensen.com/"></p><img data-src="http://i.gzn.jp/img/2017/09/17/anime-2017autumn/31.png" border="0" class="lazyload"><p class="preface"></a><br />
@@ -125,24 +124,31 @@ ED：Brian the Sun「カフネ」<br />
 野口英作：うえだゆうじ<br />
 <br />
 `
-	parsedData, err := ParseAnime(sampleHTML)
-	if err != nil {
-		t.Fatal(err)
-	}
 
-	if len(parsedData) != 2 {
-		t.Fatal("animes length must be 2")
-	}
-
+func TestParseAnime(t *testing.T) {
 	t1 := time.Date(2017, 10, 8, 24, 30, 0, 0, time.UTC)
-	anime1 := parse.Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", t1, "TOKYO MX"}
-	anime2 := parse.Anime{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", time.Time{}, "指定されていない放送局です"}
 
-	correctData := []parse.Anime{}
-	correctData = append(parsedData, anime1)
-	correctData = append(parsedData, anime2)
+	tests := []struct {
+		input string
+		want  []parse.Anime
+	}{
+		{
+			input: sample2017AutumnHTML,
+			want: []parse.Anime{
+				parse.Anime{"血界戦線＆BEYOND", "http://kekkaisensen.com/", t1, "TOKYO MX"},
+				{"3月のライオン 第2シリーズ", "http://3lion-anime.com/", time.Time{}, "指定されていない放送局です"},
+			},
+		},
+	}
 
-	if reflect.DeepEqual(parsedData, correctData) {
-		t.Fatal("missing parseAnime")
+	for _, test := range tests {
+		got, err := ParseAnime(test.input)
+		if err != nil {
+			t.Fatalf("ParseAnime return err: %+v", err)
+		}
+
+		if !reflect.DeepEqual(got, test.want) {
+			t.Fatalf("ParseAnime want to return %+v, but got %+v", test.want, got)
+		}
 	}
 }

@@ -70,7 +70,6 @@ func ParseAnime(html string) ([]parse.Anime, error) {
 func _parseAnime(animeBlock []string, year string) (parse.Anime, error) {
 	// anime block per anime
 	anime := &parse.Anime{}
-
 	var err error
 
 L:
@@ -134,13 +133,30 @@ func trimTitle(sentence string) (title string, err error) {
 
 		title = h.B.A.Content
 		return title, nil
+	} else {
+		h := htmlAnimeTitle{}
+
+		err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
+		if err != nil {
+			return "", err
+		}
+
+		title = h.A.Content
+		return title, nil
 	}
 
 	return title, nil
 }
 
 func trimURL(sentence string) (url string) {
-	a := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p><h2><b><a href="`)
+	var prefix string
+	if strings.Contains(sentence, "</b>") {
+		prefix = `</p><hr><p class="preface"></p><h2><b><a href="`
+	} else {
+		prefix = `</p><hr><p class="preface"></p><h2><a href="`
+	}
+
+	a := strings.TrimPrefix(sentence, prefix)
 	s := strings.Split(a, `"`)
 	url = s[0]
 

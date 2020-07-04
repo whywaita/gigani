@@ -124,6 +124,7 @@ func trimTitle(sentence string) (title string, err error) {
 	s = strings.TrimSuffix(s, `<p class="preface">`)
 
 	if strings.Contains(s, "</b>") {
+
 		h := htmlAnimeTitleWithB{}
 
 		err = xml.NewDecoder(strings.NewReader(s)).Decode(&h)
@@ -144,8 +145,6 @@ func trimTitle(sentence string) (title string, err error) {
 		title = h.A.Content
 		return title, nil
 	}
-
-	return title, nil
 }
 
 func trimURL(sentence string) (url string) {

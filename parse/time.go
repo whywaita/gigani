@@ -38,16 +38,23 @@ func NormalizeTime(times string) (string, error) {
 	case len(rTime) >= 4:
 		hour, _ = strconv.Atoi(rTime[2][0])
 		min, _ = strconv.Atoi(rTime[3][0])
+		day, _ = strconv.Atoi(rTime[1][0])
 	case len(rTime) == 2:
 		hour = 00
 		min = 00
+		day, _ = strconv.Atoi(rTime[1][0])
+	case len(rTime) == 1:
+		// only month
+		month, _ = strconv.Atoi(rTime[0][0])
+		hour = 00
+		min = 00
+		day = 1
 	default:
 		return "", errors.New("NormalizeTime has error, invalid parsed length")
 	}
 
 	// get time
 	month, _ = strconv.Atoi(rTime[0][0])
-	day, _ = strconv.Atoi(rTime[1][0])
 	weekday := rDay[0]
 
 	// normalize

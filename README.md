@@ -21,13 +21,13 @@ $ ./gigani
 ### Option
 
 - `-url`: [required] set target URL (in GIGAZINE).
-- `-output`: [required] set output format. markdown / json
+- `-format`: [required] set output format. markdown / json
 - `-sort`: [optional] set sort rule. post(default) / time
 
 ## Example
 
 ```
-$ ./gigani -url "http://gigazine.net/news/20170917-anime-2017autumn/" -output markdown
+$ ./gigani gigazine -url "http://gigazine.net/news/20170917-anime-2017autumn/" -format markdown
 # 録画リスト
 | 名前 | 局 | 放送時間 | done |
 |---|---|---|---|

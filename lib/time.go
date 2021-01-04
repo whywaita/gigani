@@ -44,6 +44,21 @@ func (s Season) StringJa() string {
 	return "unknown"
 }
 
+func (s Season) Months() []int {
+	switch s {
+	case Winter:
+		return []int{1, 2, 3}
+	case Spring:
+		return []int{4, 5, 6}
+	case Summer:
+		return []int{7, 8, 9}
+	case Autumn:
+		return []int{10, 11, 12}
+	}
+
+	return nil
+}
+
 func GetSeason(t time.Time) Season {
 	month := t.Month()
 

@@ -14,6 +14,17 @@ func validateFlagURL(rawURL string) error {
 	return nil
 }
 
+func validateFlag(format, sort string) error {
+	if err := validateFlagOutputFormat(format); err != nil {
+		return err
+	}
+	if err := validateFlagSort(sort); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func validateFlagOutputFormat(outputFormat string) error {
 	supportFormat := []string{"markdown", "json"}
 
@@ -24,8 +35,7 @@ func validateFlagOutputFormat(outputFormat string) error {
 		}
 	}
 
-	err := errors.New(outputFormat + " is unsupported output format")
-	return err
+	return errors.New(outputFormat + " is unsupported output format")
 }
 
 func validateFlagSort(sortType string) error {
@@ -38,6 +48,5 @@ func validateFlagSort(sortType string) error {
 		}
 	}
 
-	err := errors.New(sortType + " is unsupported sort type")
-	return err
+	return errors.New(sortType + " is unsupported sort type")
 }

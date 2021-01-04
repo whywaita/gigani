@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/whywaita/gigani/lib"
-
-	"github.com/whywaita/gigani/parse/syobocal"
-
 	"github.com/google/subcommands"
+
+	"github.com/whywaita/gigani/lib"
+	"github.com/whywaita/gigani/parse/syobocal"
 )
 
 type SyobocalCmd struct {
@@ -27,18 +26,12 @@ func (*SyobocalCmd) Usage() string {
 }
 
 func (s *SyobocalCmd) SetFlags(f *flag.FlagSet) {
-	//f.StringVar(&s.url, "url", "", "URL of syobocal")
 	f.StringVar(&s.format, "format", "markdown", "format of print format")
 	f.StringVar(&s.sortType, "sort", "post", "sort type of output")
 }
 
 func (s *SyobocalCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
-	if err := validateFlagOutputFormat(s.format); err != nil {
-		fmt.Println(err)
-		return subcommands.ExitFailure
-	}
-
-	if err := validateFlagSort(s.sortType); err != nil {
+	if err := validateFlag(s.format, s.sortType); err != nil {
 		fmt.Println(err)
 		return subcommands.ExitFailure
 	}

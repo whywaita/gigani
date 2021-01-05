@@ -3,6 +3,7 @@ module github.com/whywaita/gigani
 go 1.15
 
 require (
+	github.com/google/go-cmp v0.5.4
 	github.com/google/subcommands v1.0.1
 	github.com/gorilla/mux v1.7.2
 	github.com/machinebox/graphql v0.2.2

@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/whywaita/gigani/format"
+	"github.com/google/subcommands"
+
 	"github.com/whywaita/gigani/lib"
 	"github.com/whywaita/gigani/parse/gigazine"
-
-	"github.com/google/subcommands"
 )
 
 type GigazineCmd struct {
@@ -40,14 +39,7 @@ func (g *GigazineCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface
 		return subcommands.ExitFailure
 	}
 
-	err = validateFlagOutputFormat(g.format)
-	if err != nil {
-		fmt.Println(err)
-		return subcommands.ExitFailure
-	}
-
-	err = validateFlagSort(g.sortType)
-	if err != nil {
+	if err := validateFlag(g.format, g.sortType); err != nil {
 		fmt.Println(err)
 		return subcommands.ExitFailure
 	}
@@ -62,18 +54,6 @@ func (g *GigazineCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface
 		log.Fatal(err)
 	}
 
-	if g.sortType == "time" {
-		animes = lib.SortAnimeByTime(animes)
-	}
-
-	var r string
-	if g.format == "markdown" {
-		r = format.Markdown(animes, g.url)
-	} else if g.format == "json" {
-		r = format.JSON(animes)
-	}
-
-	fmt.Println(r)
-
+	lib.PrintAnime(animes, g.sortType, g.format, g.url)
 	return subcommands.ExitSuccess
 }

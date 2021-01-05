@@ -6,12 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/whywaita/gigani/parse/annict"
-
-	"github.com/whywaita/gigani/format"
-
 	"github.com/google/subcommands"
+
 	"github.com/whywaita/gigani/lib"
+	"github.com/whywaita/gigani/parse/annict"
 )
 
 type AnnictCmd struct {
@@ -46,14 +44,7 @@ func (a *AnnictCmd) Execute(ctx context.Context, f *flag.FlagSet, _ ...interface
 		return subcommands.ExitFailure
 	}
 
-	err = validateFlagOutputFormat(a.format)
-	if err != nil {
-		fmt.Println(err)
-		return subcommands.ExitFailure
-	}
-
-	err = validateFlagSort(a.sortType)
-	if err != nil {
+	if err := validateFlag(a.format, a.sortType); err != nil {
 		fmt.Println(err)
 		return subcommands.ExitFailure
 	}
@@ -70,19 +61,7 @@ func (a *AnnictCmd) Execute(ctx context.Context, f *flag.FlagSet, _ ...interface
 		return subcommands.ExitFailure
 	}
 
-	if a.sortType == "time" {
-		animes = lib.SortAnimeByTime(animes)
-	}
-
-	var r string
-	if a.format == "markdown" {
-		r = format.Markdown(animes, "Annict")
-	} else if a.format == "json" {
-		r = format.JSON(animes)
-	}
-
-	fmt.Println(r)
-
+	lib.PrintAnime(animes, a.sortType, a.format, annict.AnnictGraphQLURL)
 	return subcommands.ExitSuccess
 }
 

@@ -69,11 +69,7 @@ func getAnimes(programs map[string]Program, titles map[uint64]Title) []parse.Ani
 }
 
 func canAppendProgram(p Program, title Title) bool {
-	if p.Count != 1 {
-		return false
-	}
-
-	if p.ChName == "AT-X" {
+	if p.ChName == "AT-X" || p.ChName == "超!A&G+" || p.ChName == "文化放送(1134)" {
 		return false
 	}
 

@@ -1,6 +1,6 @@
 module github.com/whywaita/gigani
 
-go 1.12
+go 1.15
 
 require (
 	github.com/google/subcommands v1.0.1

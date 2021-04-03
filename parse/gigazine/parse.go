@@ -157,9 +157,14 @@ func trimURL(sentence string) (url string) {
 
 	a := strings.TrimPrefix(sentence, prefix)
 	s := strings.Split(a, `"`)
-	url = s[0]
 
-	return url
+	for _, body := range s {
+		if strings.HasPrefix(body, "http") {
+			return body
+		}
+	}
+
+	return ""
 }
 
 func listBroadCaster() [6]string {

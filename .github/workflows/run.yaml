@@ -2,9 +2,13 @@ name: Manually execute
 on:
   workflow_dispatch:
     inputs:
-      url:
-        description: 'Target URL'
+      source:
+        description: 'Source (gigazine, syobocal, annict)'
         required: true
+        default: 'gigazine'
+      url:
+        description: 'Target URL (in Gigazine)'
+        required: false
       format:
         description: 'Output format'
         required: true
@@ -13,6 +17,9 @@ on:
         description: 'Sort rule'
         required: true
         default: 'post'
+      annict-token:
+        description: 'Token of Annict'
+        required: false
 
 jobs:
   run:
@@ -33,7 +40,7 @@ jobs:
           set -eux
 
           sudo chmod +x ./gigani
-          ./gigani gigazine \
+          ./gigani ${{ github.event.inputs.source }} \
             -url ${{ github.event.inputs.url }} \
             -format ${{ github.event.inputs.format }} \
             -sort ${{ github.event.inputs.sort }}

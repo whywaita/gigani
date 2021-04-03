@@ -33,7 +33,7 @@ jobs:
           set -eux
 
           sudo chmod +x ./gigani
-          ./gigani \
+          ./gigani gigazine \
             -url ${{ github.event.inputs.url }} \
             -format ${{ github.event.inputs.format }} \
             -sort ${{ github.event.inputs.sort }}

@@ -6,9 +6,6 @@ on:
         description: 'Source (gigazine, syobocal, annict)'
         required: true
         default: 'gigazine'
-      url:
-        description: 'Target URL (in Gigazine)'
-        required: false
       format:
         description: 'Output format'
         required: true
@@ -16,9 +13,12 @@ on:
       sort:
         description: 'Sort rule'
         required: true
-        default: 'post'
+        default: 'time'
+      url:
+        description: 'Target URL (in Gigazine)'
+        required: false
       annict-token:
-        description: 'Token of Annict'
+        description: 'Token (in Annict)'
         required: false
 
 jobs:
@@ -40,7 +40,20 @@ jobs:
           set -eux
 
           sudo chmod +x ./gigani
-          ./gigani ${{ github.event.inputs.source }} \
-            -url ${{ github.event.inputs.url }} \
-            -format ${{ github.event.inputs.format }} \
-            -sort ${{ github.event.inputs.sort }}
+
+          case ${{ github.event.inpouts.source }} in
+            "gigazine" ) ./gigani ${{ github.event.inputs.source }} \
+                           -url ${{ github.event.inputs.url }} \
+                           -format ${{ github.event.inputs.format }} \
+                           -sort ${{ github.event.inputs.sort }} ;;
+
+            "syobocal" ) ./gigani ${{ github.event.inputs.source }} \
+                           -format ${{ github.event.inputs.format }} \
+                           -sort ${{ github.event.inputs.sort }} ;;
+
+            "annict" ) ./gigani ${{ github.event.inputs.source }} \
+                           -token ${{ github.event.inputs.token }} \
+                           -format ${{ github.event.inputs.format }} \
+                           -sort ${{ github.event.inputs.sort }} ;;
+          esac
+

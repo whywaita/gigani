@@ -18,17 +18,22 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: dsaltares/fetch-gh-release-asset@master
-        with:
-          repo: "whywaita/gigani"
-          version: "latest"
-          file: "gigani_linux_amd64"
-          target: "./gigani_linux_amd64"
-      - run: |
-          set -x
+      - name: Get latest release file
+        id: assets
+        run: |
+          set -eux
 
-          sudo chmod +x ./gigani_linux_amd64
-          ./gigani_linux_amd64 \
+          latest_name=$(curl -s https://api.github.com/repos/whywaita/gigani/releases/latest | jq '.assets[].name' | grep linux_amd64)
+          latest_url=$(curl -s https://api.github.com/repos/whywaita/gigani/releases/latest | jq '.assets[].browser_download_url' | grep linux_amd64)
+          curl -L -O ${latest_url}
+
+          tar zvfx ${latest_name}
+      - name: Execute
+        run: |
+          set -eux
+
+          sudo chmod +x ./gigani
+          ./gigani \
             -url ${{ github.event.inputs.url }} \
             -format ${{ github.event.inputs.format }} \
             -sort ${{ github.event.inputs.sort }}

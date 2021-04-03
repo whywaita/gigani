@@ -27,7 +27,7 @@ jobs:
       - run: |
           set -x
 
-          chmod +x ./gigani_darwin_amd64
+          sudo chmod +x ./gigani_darwin_amd64
           ./gigani_darwin_amd64 \
             -url ${{ github.event.inputs.url }} \
             -format ${{ github.event.inputs.format }} \

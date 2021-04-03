@@ -41,7 +41,7 @@ jobs:
 
           sudo chmod +x ./gigani
 
-          case ${{ github.event.inpouts.source }} in
+          case ${{ github.event.inputs.source }} in
             "gigazine" ) ./gigani ${{ github.event.inputs.source }} \
                            -url ${{ github.event.inputs.url }} \
                            -format ${{ github.event.inputs.format }} \

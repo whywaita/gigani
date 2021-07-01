@@ -1,38 +1,52 @@
 package parse
 
 import (
-	"strings"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestNormalizeTime(t *testing.T) {
-	sample1 := `10/7(月) 23:59〜`
-	sample2 := `10/7(月) 24:00〜`
-	sample3 := `10/7(土) 23:59〜`
-	sample4 := `10/7(土) 24:30〜`
-
-	p1, err := NormalizeTime(sample1)
-	p2, err := NormalizeTime(sample2)
-	p3, err := NormalizeTime(sample3)
-	p4, err := NormalizeTime(sample4)
-	if err != nil {
-		t.Fatal(err)
+	tests := []struct {
+		input string
+		want  string
+		err   bool
+	}{
+		{
+			input: `10/7(月) 23:59〜`,
+			want:  "10/7(月) 23:59",
+			err:   false,
+		},
+		{
+			input: `10/7(月) 24:00〜`,
+			want:  "10/8(火) 0:00",
+			err:   false,
+		},
+		{
+			input: `10/7(土) 23:59〜`,
+			want:  "10/7(土) 23:59",
+			err:   false,
+		},
+		{
+			input: `10/7(土) 24:30〜`,
+			want:  "10/8(日) 0:30",
+			err:   false,
+		},
+		{
+			input: `10/31(火) 24:00〜`,
+			want:  "11/1(水) 0:00",
+			err:   false,
+		},
 	}
 
-	if !strings.EqualFold(p1, "10/7(月) 23:59") {
-		t.Fatalf("%s is fail", sample1)
-	}
+	for _, test := range tests {
+		got, err := NormalizeTime(test.input, "2019")
+		if err != nil && !test.err {
+			t.Fatalf("NormalizeTime got error: %+v", err)
+		}
 
-	if !strings.EqualFold(p2, "10/8(火) 0:00") {
-		t.Fatalf("%s is fail", sample2)
+		if diff := cmp.Diff(test.want, got); diff != "" {
+			t.Errorf("NormalizeTime() mismatch (-want +got):\n%s", diff)
+		}
 	}
-
-	if !strings.EqualFold(p3, "10/7(土) 23:59") {
-		t.Fatalf("%s is fail", sample3)
-	}
-
-	if !strings.EqualFold(p4, "10/8(日) 0:30") {
-		t.Fatalf("%s is fail", sample4)
-	}
-
 }

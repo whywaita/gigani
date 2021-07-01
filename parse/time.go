@@ -27,7 +27,7 @@ var (
 	layoutRegexp = "%d/%d(%s) %d:%02d"
 )
 
-func NormalizeTime(times string) (string, error) {
+func NormalizeTime(times, year string) (string, error) {
 	// times format is layoutRegexp
 	var month, day, hour, min int
 
@@ -57,10 +57,15 @@ func NormalizeTime(times string) (string, error) {
 	month, _ = strconv.Atoi(rTime[0][0])
 	weekday := rDay[0]
 
+	y, _ := strconv.Atoi(year)
+
 	// normalize
 	if hour >= 24 {
 		hour = hour - 24
-		day = day + 1
+		t := time.Date(y, time.Month(month), day, hour, min, 0, 0, time.Local)
+		t = t.AddDate(0, 0, 1)
+		month = int(t.Month())
+		day = t.Day()
 		weekday = nextWeekday(weekday)
 	}
 
@@ -101,7 +106,7 @@ func ParseTime(times string, year string) (time.Time, error) {
 		"土", "Saturday",
 	}
 
-	normalized, err := NormalizeTime(times)
+	normalized, err := NormalizeTime(times, year)
 	if err != nil {
 		return time.Time{}, err
 	}

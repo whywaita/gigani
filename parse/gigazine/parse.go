@@ -75,14 +75,26 @@ func _parseAnime(animeBlock []string, year string) (parse.Anime, error) {
 L:
 
 	for _, sentence := range animeBlock {
-		if strings.HasPrefix(sentence, `</p><hr><p class="preface">`) {
-			// `</p><hr><p class="preface">` contain title
+		if strings.HasPrefix(sentence, `</p><hr></p><p class="preface">`) {
+			// `</p><hr></p><p class="preface">` contain title
 
 			if anime.Name != "" {
 				continue
 			}
 
-			anime.Name, err = trimTitle(sentence)
+			anime.Name, err = trimTitle(sentence, `</p><hr></p><p class="preface">`)
+			if err != nil {
+				return parse.Anime{}, err
+			}
+			anime.URL = trimURL(sentence)
+		}
+		if strings.HasPrefix(sentence, `</p><hr><p class="preface">`) {
+			// `</p><hr><p class="preface">` contain title
+			if anime.Name != "" {
+				continue
+			}
+
+			anime.Name, err = trimTitle(sentence, `</p><hr><p class="preface"></p>`)
 			if err != nil {
 				return parse.Anime{}, err
 			}
@@ -119,8 +131,8 @@ L:
 	return *anime, nil
 }
 
-func trimTitle(sentence string) (title string, err error) {
-	s := strings.TrimPrefix(sentence, `</p><hr><p class="preface"></p>`)
+func trimTitle(sentence, prefix string) (title string, err error) {
+	s := strings.TrimPrefix(sentence, prefix)
 	s = strings.TrimSuffix(s, `<p class="preface">`)
 
 	if strings.Contains(s, "</b>") {

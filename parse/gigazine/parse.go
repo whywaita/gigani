@@ -178,8 +178,3 @@ func trimURL(sentence string) (url string) {
 
 	return ""
 }
-
-func listBroadCaster() [6]string {
-	// return list of broadcaster for gigazine notation
-	return parse.ListBroadcaster
-}

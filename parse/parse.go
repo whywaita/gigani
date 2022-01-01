@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	// list of Broadcaster (priority order)
-	ListBroadcaster = [6]string{"TOKYO MX", "テレビ東京", "フジテレビ", "日本テレビ", "tvk", "TBS"}
+	// ListBroadcaster is list of Broadcaster (priority order)
+	ListBroadcaster = []string{"TOKYO MX", "テレビ東京", "フジテレビ", "日本テレビ", "tvk", "TBS"}
 )
 
 const (

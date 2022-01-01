@@ -47,7 +47,7 @@ func workToAnime(work AnnictWork) parse.Anime {
 	}
 
 	for _, p := range programs {
-		for _, broadcaster := range listBroadCaster() {
+		for _, broadcaster := range parse.ListBroadcaster {
 			if p.Channel.Name == broadcaster {
 				// found!
 				anime.StartDate = p.StartedAt
@@ -63,8 +63,4 @@ func workToAnime(work AnnictWork) parse.Anime {
 	anime.BloadCaster = programs[0].Channel.Name
 
 	return anime
-}
-
-func listBroadCaster() [6]string {
-	return parse.ListBroadcaster
 }
